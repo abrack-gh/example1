@@ -1,12 +1,22 @@
 package org.ab.beans;
 
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
+import org.ab.config.VehicleServices;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
-@Component
+@Component("vehicleBean")
 public class Vehicle {
 
-    private String name;
+    private String name = "Honda";
+    private final VehicleServices vehicleServices;
+
+    @Autowired
+    public Vehicle(VehicleServices vehicleServices) {
+        this.vehicleServices = vehicleServices;
+    }
 
     public String getName() {
         return name;
@@ -16,7 +26,18 @@ public class Vehicle {
         this.name = name;
     }
 
-    public void hello(){
-        System.out.println("Hello from vehicle component bean");
+    public VehicleServices getVehicleServices() {
+        return vehicleServices;
     }
+
+    public void printHello() {
+        System.out.println(
+                "Printing Hello from Component Vehicle Bean");
+    }
+
+    @Override
+    public String toString() {
+        return "Vehicle name is - " + name;
+    }
+
 }
